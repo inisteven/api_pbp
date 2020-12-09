@@ -34,6 +34,12 @@ Route::post('motor', 'MotorController@store');
 Route::put('motor/{id}', 'MotorController@update');
 Route::delete('motor/{id}', 'MotorController@destroy');
 
+Route::get('history', 'HistoryController@index');
+Route::get('history/{id}', 'HistoryController@show');
+Route::post('history', 'HistoryController@store');
+Route::put('history/{id}', 'HistoryController@update');
+Route::delete('history/{id}', 'HistoryController@destroy');
+
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('product', 'Api\ProductController@index');
     Route::get('product/{id}', 'Api\ProductController@show');
