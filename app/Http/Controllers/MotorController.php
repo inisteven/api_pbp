@@ -131,7 +131,7 @@ class MotorController extends Controller
         $motor->harga = $updateData['harga'];
         // $motor->imgURL = $updateData['imgURL'];
         
-        if($motor->imgURL != $updateData['imgURL'] && $updateData['imgURL'] != null)
+        if($motor->imgURL != $updateData['imgURL'] && $updateData['imgURL'] != "-")
         {
             $image = $request['imgURL'];
             $image = str_replace('data:image/png;base64,', '', $image);
