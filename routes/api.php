@@ -39,6 +39,7 @@ Route::get('history/{id}', 'HistoryController@show');
 Route::post('history', 'HistoryController@store');
 Route::put('history/{id}', 'HistoryController@update');
 Route::delete('history/{id}', 'HistoryController@destroy');
+Route::get('history/search/{id}', 'HistoryController@find');
 
 Route::group(['middleware' => 'auth:api'], function(){
     Route::get('product', 'Api\ProductController@index');

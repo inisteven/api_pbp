@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rule;
 use Validator;
 use App\Motor;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class MotorController extends Controller
 {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use Illuminate\Support\Facades\DB;
 use App\History;
 
 class HistoryController extends Controller
@@ -117,5 +118,21 @@ class HistoryController extends Controller
             'message' => 'Update History Failed',
             'data' => null,
         ],400);
+    }
+
+    public function find($id){
+        $hist = DB::table('histories')->where('id_user', $id)->get();
+
+        if(!is_null($motor)){
+            return response([
+                'message' => 'Retrieve History Success',
+                'data' => $hist
+            ],200);
+        }
+
+        return response([
+            'message' => 'Empty',
+            'data' => null
+        ],404);
     }
 }
