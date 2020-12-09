@@ -123,7 +123,7 @@ class HistoryController extends Controller
     public function find($id){
         $hist = DB::table('histories')->where('id_user', $id)->get();
 
-        if(!is_null($motor)){
+        if(!is_null($hist)){
             return response([
                 'message' => 'Retrieve History Success',
                 'data' => $hist
