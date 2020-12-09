@@ -51,11 +51,23 @@ class MotorController extends Controller
             'tahun' => 'required|numeric',
             'status' => 'required|alpha',
             'harga' => 'required|numeric',
-            'imgURL' => 'required'
+            'imgURL'
         ]);
 
         if($validate->fails())
             return response(['message' => $validate->errors()],400);
+
+        if($storeData['imgURL'] != "-")
+        {
+            $image = $storeData['imgURL'];
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(10).'.'.'png';
+
+            Storage::disk('public')->put($imageName, base64_decode($image));
+
+            $storeData->imgURL = $imageName;
+        }
 
         $motor = Motor::create($storeData);
         return response([
@@ -104,7 +116,7 @@ class MotorController extends Controller
             'tahun' => 'required|numeric',
             'status' => 'required|alpha',
             'harga' => 'required|numeric',
-            'imgURL' => 'required'
+            'imgURL'
         ]);
 
         if($validate->fails())
@@ -117,6 +129,15 @@ class MotorController extends Controller
         $motor->status = $updateData['status'];
         $motor->harga = $updateData['harga'];
         $motor->imgURL = $updateData['imgURL'];
+        
+        $image = $updateData['imgURL'];
+        $image = str_replace('data:image/png;base64,', '', $image);
+        $image = str_replace(' ', '+', $image);
+        $imageName = Str::random(10).'.'.'png';
+
+        Storage::disk('public')->put($imageName, base64_decode($image));
+
+        $motor->imgURL = $imageName;
 
         if($motor->save()){
             return response([

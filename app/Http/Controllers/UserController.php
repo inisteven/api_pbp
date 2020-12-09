@@ -8,6 +8,9 @@ use Illuminate\Validation\Rule;
 use Validator;
 use App\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class UserController extends Controller
 {
@@ -54,6 +57,19 @@ class UserController extends Controller
             'imgURL'
         ]);
 
+        if($storeData['imgURL'] != "-")
+        {
+            $image = $request['imgURL'];
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(10).'.'.'png';
+
+            Storage::disk('public')->put($imageName, base64_decode($image));
+
+            $storeData->imgURL = $imageName;
+        }
+
+
         if($validate->fails())
             return response(['message' => $validate->errors()],400);
 
@@ -99,22 +115,28 @@ class UserController extends Controller
         $updateData = $request->all();
         $validate = Validator::make($updateData, [
             'name' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
-            'email' => 'required|email:rfc,dns|unique:users',
-            'password' => 'required|alpha_num',
             'phone' => 'required|alpha_num',
             'ktp' => 'required|alpha_num',
-            'imgURL' => 'alpha_num'
         ]);
 
         if($validate->fails())
             return response(['message' => $validate->errors()],400);
 
         $user->name = $updateData['name'];
-        $user->email = $updateData['email'];
-        $user->password = $updateData['password'];
         $user->phone = $updateData['phone'];
         $user->ktp = $updateData['ktp'];
-        $user->imgURL = $updateData['imgURL'];
+
+        if($request['imgURL'] != "-")
+        {
+            $image = $request['imgURL'];
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(10).'.'.'png';
+
+            Storage::disk('public')->put($imageName, base64_decode($image));
+
+            $user->imgURL = $imageName;
+        }
 
         if($user->save()){
             return response([
