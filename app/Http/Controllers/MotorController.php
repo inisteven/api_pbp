@@ -129,17 +129,20 @@ class MotorController extends Controller
         $motor->tahun = $updateData['tahun'];
         $motor->status = $updateData['status'];
         $motor->harga = $updateData['harga'];
-        $motor->imgURL = $updateData['imgURL'];
+        // $motor->imgURL = $updateData['imgURL'];
         
-        $image = $request['imgURL'];
-        $image = str_replace('data:image/png;base64,', '', $image);
-        $image = str_replace(' ', '+', $image);
-        $imageName = Str::random(10).'.'.'png';
-
-        Storage::disk('public')->put($imageName, base64_decode($image));
-
-        $motor->imgURL = $imageName;
-
+        if($motor->imgURL != $updateData['imgURL'] && $updateData['imgURL'] != null)
+        {
+            $image = $request['imgURL'];
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(10).'.'.'png';
+    
+            Storage::disk('public')->put($imageName, base64_decode($image));
+    
+            $motor->imgURL = $imageName;
+        }
+        
         if($motor->save()){
             return response([
             'message' => 'Update Motor Success',
