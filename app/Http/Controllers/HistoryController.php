@@ -125,7 +125,7 @@ class HistoryController extends Controller
 
         if(!is_null($hist)){
             return response([
-                'message' => 'Retrieve History Success',
+                'message' => 'Retrieve Find History Success',
                 'data' => $hist
             ],200);
         }

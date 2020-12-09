@@ -54,10 +54,9 @@ class UserController extends Controller
             'password' => 'required|alpha_num',
             'phone' => 'required|alpha_num',
             'ktp' => 'required|alpha_num',
-            'imgURL'
         ]);
 
-        if($storeData['imgURL'] != "-")
+        if($request['imgURL'] != "-")
         {
             $image = $request['imgURL'];
             $image = str_replace('data:image/png;base64,', '', $image);
