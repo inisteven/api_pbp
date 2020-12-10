@@ -56,6 +56,8 @@ class UserController extends Controller
             'ktp' => 'required|alpha_num',
         ]);
 
+        $storeData->password = bcrypt($request->password);
+
         if($request['imgURL'] != "-")
         {
             $image = $request['imgURL'];
@@ -124,6 +126,11 @@ class UserController extends Controller
         $user->name = $updateData['name'];
         $user->phone = $updateData['phone'];
         $user->ktp = $updateData['ktp'];
+
+        if($request['password'] != "-")
+        {
+            $user->password = bcrypt($request->password);
+        }
 
         if($request['imgURL'] != "-")
         {
