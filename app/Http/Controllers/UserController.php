@@ -67,7 +67,7 @@ class UserController extends Controller
 
             Storage::disk('public')->put($imageName, base64_decode($image));
 
-            $storeData->imgURL = $imageName;
+            $storeData['imgURL'] = $imageName;
         }
 
 
